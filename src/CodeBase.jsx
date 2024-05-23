@@ -5,7 +5,7 @@ import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs } from 'react-icons/fa';
 import UseBeforeUnload from './UseBeforeUnload';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { baseurl } from './baseurl';
 
@@ -20,7 +20,7 @@ const CodeBase = () => {
   const [isOpen,setOpen] = useState(false);
   const email = localStorage.getItem('user_email');
   console.log(email);
-
+const navigate = useNavigate();
   
 
   
@@ -47,6 +47,8 @@ const handleSave = async()=>{
       setloading(true);
       const res = await axios.post(`${baseurl}/0auth/save`,{"email":email,"title":title,"desc":desc,"html":html,"css":css,"js":js});
       setloading(false);
+      navigate('/home')
+      
       console.log(res);
     }
     else{
@@ -62,7 +64,7 @@ setOpen(!isOpen);
 
 
 
-console.log(title);
+console.log(html=="" && css=="");
   return (
     <>
      <div className='topinfo'>
@@ -75,7 +77,7 @@ console.log(title);
           </div>
           <div style={{display:'flex'}}>
 
-          <button  onClick={HandleOpen} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" >Save <FaCloud style={{marginLeft:'10px'}} size={22} color='white'  /></span></button>
+          <button disabled={(html=='' && css=='' && js=='')} onClick={HandleOpen} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" > {isOpen?"Cancel":"Save"}<FaCloud style={{marginLeft:'10px'}} size={22} color='white'  /></span></button>
           {
 isOpen &&
             <div>

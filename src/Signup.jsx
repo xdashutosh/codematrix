@@ -10,12 +10,19 @@ const navigate = useNavigate();
     const [password,setpassword]= useState(null);
 console.log(username,email,password);
 const handleSignup = async()=>{
-    const res = await axios.post(`${baseurl}/0auth/signup`,{"username":username,"email":email,"password":password})
-    if(res?.data?.userCreated)
- {
-    localStorage.setItem('user_email', email);
-navigate('/home');
- }
+  if(username && email && password)
+    {
+      const res = await axios.post(`${baseurl}/0auth/signup`,{"username":username,"email":email,"password":password})
+      if(res?.data?.userCreated)
+   {
+      localStorage.setItem('user_email', email);
+  navigate('/home');
+   }
+    }
+    else{
+      window.alert("please fill all feilds!");
+    }
+
 }
 
 const handlelog = ()=>{

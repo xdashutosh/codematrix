@@ -8,14 +8,24 @@ const navigate = useNavigate();
     const [email,setemail]= useState(null);
     const [password,setpassword]= useState(null);
 const handleLogin = async()=>{
-    const res = await axios.post(`${baseurl}/0auth/login`,{"email":email,"password":password});
-    console.log(res?.data);
-    if(res?.data?.isAuthenticated)
- {
-    localStorage.setItem('user_email', email);
-navigate('/home');
+  if(email && password)
+    {
 
- }
+      const res = await axios.post(`${baseurl}/0auth/login`,{"email":email,"password":password});
+      console.log(res?.data);
+      if(res?.data?.isAuthenticated)
+        {
+          localStorage.setItem('user_email', email);
+          navigate('/home');
+          
+        }
+        else{
+        window.alert("Wrong credentials!")
+        }
+      }
+      else{
+        window.alert("enter email and password!")
+      }
 }
 const handleSign = ()=>{
   navigate('/signup')

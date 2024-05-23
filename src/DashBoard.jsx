@@ -46,12 +46,6 @@ const {id} = useParams();
     return () => clearTimeout(timeout);
   }, [html, css, js]);
 
-
-const handleSave = async()=>{
-  const res = await axios.post(`${baseurl}/0auth/save`,{"email":email,"html":html,"css":css,"js":js});
-  console.log(res);
-}
-
   return (
     <>
      <div className='topinfo'>
@@ -63,7 +57,6 @@ const handleSave = async()=>{
           </div>
           <div style={{display:'flex'}}>
 
-          <button onClick={handleSave} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" >Save <FaCloud style={{marginLeft:'10px'}} size={22} color='white'  /></span></button>
           <h5>Made by ashutosh chaudhary @2024</h5>
           </div>
         </div>
