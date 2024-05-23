@@ -5,29 +5,23 @@ import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs } from 'react-icons/fa';
 import UseBeforeUnload from './UseBeforeUnload';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const DashBoard = () => {
+const CodeBase = () => {
   const [html, setHtml] = useState('');
   const [css, setCss] = useState('');
   const [js, setJs] = useState('');
+  const [title, settitle] = useState(null);
+  const [desc, setdesc] = useState(null);
+  const[loading,setloading] = useState(false);
   const [srcDoc, setSrcDoc] = useState('');
+  const [isOpen,setOpen] = useState(false);
   const email = localStorage.getItem('user_email');
   console.log(email);
-const {id} = useParams();
+
   
-  useEffect(()=>{
-    const getData = async()=>{
-      const res = await axios.post('http://localhost:5000/0auth/getdata',{"email":email});
-      console.log(res?.data);
-      setHtml(res?.data?.mycode[id]?.html);
-      setCss(res?.data?.mycode[id]?.css);
-      setJs(res?.data?.mycode[id]?.js);
-      
-    }
-    getData();
-  },[])
+
   
   UseBeforeUnload('Are you sure you want to leave? save first');
 
@@ -47,10 +41,27 @@ const {id} = useParams();
 
 
 const handleSave = async()=>{
-  const res = await axios.post('http://localhost:5000/0auth/save',{"email":email,"html":html,"css":css,"js":js});
-  console.log(res);
+  if(title && desc)
+    {
+      setloading(true);
+      const res = await axios.post('http://localhost:5000/0auth/save',{"email":email,"title":title,"desc":desc,"html":html,"css":css,"js":js});
+      setloading(false);
+      console.log(res);
+    }
+    else{
+      window.alert("title or desc missing!");
+    }
 }
 
+const HandleOpen = ()=>{
+setOpen(!isOpen);
+}
+
+
+
+
+
+console.log(title);
   return (
     <>
      <div className='topinfo'>
@@ -58,12 +69,28 @@ const handleSave = async()=>{
       <Link to={'/home'}>
             <FaConnectdevelop color='white' size={36}/>
       </Link>
+      
             <h3 className='logoname'>CodeMatrix</h3>
           </div>
           <div style={{display:'flex'}}>
 
-          <button onClick={handleSave} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" >Save <FaCloud style={{marginLeft:'10px'}} size={22} color='white'  /></span></button>
-          <h5>Made by ashutosh chaudhary @2024</h5>
+          <button  onClick={HandleOpen} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" >Save <FaCloud style={{marginLeft:'10px'}} size={22} color='white'  /></span></button>
+          {
+isOpen &&
+            <div>
+
+          <input placeholder='project title...' type='text' style={{padding:'10px',marginTop:'10px' ,backgroundColor:'transparent',color:'white',boxShadow:'0px 0px 6px white',width:'70%'}}
+             value={title} onChange={(e)=>settitle(e.target.value)}
+             />
+
+<textarea  rows={10} placeholder='project description..'  style={{padding:'10px',marginTop:'10px' ,backgroundColor:'transparent',color:'white',boxShadow:'0px 0px 6px white',width:'70%'}}
+             value={desc} onChange={(e)=>setdesc(e.target.value)}
+             />
+
+<button onClick={handleSave} className="custom-btn btn-3" style={{color:'white'}}><span className="btntext"> {loading?'Saving...':'Save'}</span></button>
+             </div>
+            }
+
           </div>
         </div>
     <div className="container">
@@ -118,4 +145,4 @@ const handleSave = async()=>{
   );
 };
 
-export default DashBoard;
+export default CodeBase;
