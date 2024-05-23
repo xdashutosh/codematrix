@@ -13,12 +13,9 @@ const [cards,setcards]= useState([]);
     
     useEffect(()=>{
       const getData = async()=>{
-        const res = await axios.post(`${baseurl}/0auth/getdata`,{"email":email});
-        console.log(res?.data?.mycode);
-        setcards(res?.data?.mycode);
-        // setHtml(res?.data?.html)
-        // setCss(res?.data?.css)
-        // setJs(res?.data?.js)
+        const res = await axios.post(`${baseurl}/0auth/getalldata`,{});
+        console.log(res?.data[0]);
+        setcards(res?.data);
       }
       getData();
     },[])
@@ -42,21 +39,22 @@ function truncateParagraph(paragraph, wordLimit) {
   return (
     <div className='homebody' >
 <Navigation/>
-<h1 style={{color:'white',margin:'10px',textDecoration:'underline'}}>My Matrix</h1>
+<h1 style={{color:'white',margin:'10px',textDecoration:'underline'}}>All Matrix</h1>
 <div style={{display:'flex',justifyContent:'space-evenly',flexWrap:'wrap',alignItems:'start'}}>
 
 {  cards.length>0 ? (
 
   cards?.map((data,index)=>(
-    <div class="card" onClick={()=>handleVisit(data?._id)}>
+    data?.mycode?.map((da,i)=>(
+        <div class="card" onClick={()=>handleVisit(da?._id)}>
         <div class="card-image" >
         <iframe
           srcDoc={
             `
         <html>
-          <body>${data?.code?.html}</body>
-          <style>${data?.code?.css}</style>
-          <script>${data?.code?.js}</script>
+          <body>${da?.code?.html}</body>
+          <style>${da?.code?.css}</style>
+          <script>${da?.code?.js}</script>
         </html>
       `
           }
@@ -70,16 +68,19 @@ function truncateParagraph(paragraph, wordLimit) {
         </div>
         <div class="card-content" style={{overflow:'scroll'}}>
           <div style={{display:'flex',width:'100%',justifyContent:'space-around',alignItems:'center'}}>
-            <h2>{data?.code?.title}</h2>
+            <h2>{da?.code?.title}</h2>
             <div style={{display:'flex',width:'20%',justifyContent:'space-evenly'}}>
             <FaThumbsUp/>
             <FaEye/>
             <FaHeart/>
             </div>
           </div>
-            <p>{ truncateParagraph(data?.code?.desc,15)}</p>
+            <p>{ truncateParagraph(da?.code?.desc,15)}</p>
         </div>
     </div>
+
+    ))
+  
     ))
   ):(<h1 style={{color:'white'}}>No projects yet!</h1>)
 }

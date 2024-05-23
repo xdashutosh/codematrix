@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs } from 'react-icons/fa';
+import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs, FaTrash } from 'react-icons/fa';
 import UseBeforeUnload from './UseBeforeUnload';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -20,11 +20,10 @@ const {id} = useParams();
   
   useEffect(()=>{
     const getData = async()=>{
-      const res = await axios.post(`${baseurl}/0auth/getdata`,{"email":email});
-      console.log(res?.data);
-      setHtml(res?.data?.mycode[id]?.html);
-      setCss(res?.data?.mycode[id]?.css);
-      setJs(res?.data?.mycode[id]?.js);
+      const res = await axios.post(`${baseurl}/0auth/getcard`,{"_id":id});
+      setHtml(res?.data?.code?.code?.html);
+      setCss(res?.data?.code?.code?.css);
+      setJs(res?.data?.code?.code?.js);
       
     }
     getData();
@@ -46,6 +45,10 @@ const {id} = useParams();
     return () => clearTimeout(timeout);
   }, [html, css, js]);
 
+const Handledelete = async()=>{
+
+}
+
   return (
     <>
      <div className='topinfo'>
@@ -55,10 +58,9 @@ const {id} = useParams();
       </Link>
             <h3 className='logoname'>CodeMatrix</h3>
           </div>
-          <div style={{display:'flex'}}>
-
-          <h5>Made by ashutosh chaudhary @2024</h5>
-          </div>
+          {/* <div style={{display:'flex'}}>
+          <button  onClick={Handledelete} style={{color:'white'}}  className="custom-btn btn-3"><span  className="btntext" >Delete<FaTrash style={{marginLeft:'10px'}} size={14} color='white'  /></span></button>
+          </div> */}
         </div>
     <div className="container">
       <div className="editor-container">

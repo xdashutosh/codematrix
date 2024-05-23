@@ -7,6 +7,8 @@ import Signup from './Signup'
 import Login from './Login'
 import Home from './Home'
 import CodeBase from './CodeBase'
+import Challenge from './Challenge'
+import Explore from './Explore'
 const App = () => {
   return (
 <BrowserRouter>
@@ -17,6 +19,8 @@ const App = () => {
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
   <Route path='/home' element={<Home/>}/>
+  <Route path='/challenge' element={<Challenge/>}/>
+  <Route path='/explore' element={<Explore/>}/>
 </Routes>
 </BrowserRouter>
  
