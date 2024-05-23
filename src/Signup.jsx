@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { baseurl } from './baseurl';
 
 const Signup = () => {
 const navigate = useNavigate();
@@ -9,7 +10,7 @@ const navigate = useNavigate();
     const [password,setpassword]= useState(null);
 console.log(username,email,password);
 const handleSignup = async()=>{
-    const res = await axios.post('http://localhost:5000/0auth/signup',{"username":username,"email":email,"password":password})
+    const res = await axios.post(`${baseurl}/0auth/signup`,{"username":username,"email":email,"password":password})
     if(res?.data?.userCreated)
  {
     localStorage.setItem('user_email', email);

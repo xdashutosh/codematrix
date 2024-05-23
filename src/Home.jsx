@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { baseurl } from './baseurl';
 
 const Home = () => {
 const [cards,setcards]= useState([]);
@@ -10,7 +11,7 @@ const [cards,setcards]= useState([]);
     
     useEffect(()=>{
       const getData = async()=>{
-        const res = await axios.post('http://localhost:5000/0auth/getdata',{"email":email});
+        const res = await axios.post(`${baseurl}/0auth/getdata`,{"email":email});
         console.log(res?.data?.mycode);
         setcards(res?.data?.mycode);
         // setHtml(res?.data?.html)

@@ -7,6 +7,7 @@ import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs } from 'react-icons/fa
 import UseBeforeUnload from './UseBeforeUnload';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { baseurl } from './baseurl';
 
 const DashBoard = () => {
   const [html, setHtml] = useState('');
@@ -19,7 +20,7 @@ const {id} = useParams();
   
   useEffect(()=>{
     const getData = async()=>{
-      const res = await axios.post('http://localhost:5000/0auth/getdata',{"email":email});
+      const res = await axios.post(`${baseurl}/0auth/getdata`,{"email":email});
       console.log(res?.data);
       setHtml(res?.data?.mycode[id]?.html);
       setCss(res?.data?.mycode[id]?.css);
@@ -47,7 +48,7 @@ const {id} = useParams();
 
 
 const handleSave = async()=>{
-  const res = await axios.post('http://localhost:5000/0auth/save',{"email":email,"html":html,"css":css,"js":js});
+  const res = await axios.post(`${baseurl}/0auth/save`,{"email":email,"html":html,"css":css,"js":js});
   console.log(res);
 }
 

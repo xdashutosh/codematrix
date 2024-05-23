@@ -7,6 +7,7 @@ import { FaCloud, FaConnectdevelop, FaCss3, FaHtml5, FaJs } from 'react-icons/fa
 import UseBeforeUnload from './UseBeforeUnload';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { baseurl } from './baseurl';
 
 const CodeBase = () => {
   const [html, setHtml] = useState('');
@@ -44,7 +45,7 @@ const handleSave = async()=>{
   if(title && desc)
     {
       setloading(true);
-      const res = await axios.post('http://localhost:5000/0auth/save',{"email":email,"title":title,"desc":desc,"html":html,"css":css,"js":js});
+      const res = await axios.post(`${baseurl}/0auth/save`,{"email":email,"title":title,"desc":desc,"html":html,"css":css,"js":js});
       setloading(false);
       console.log(res);
     }
